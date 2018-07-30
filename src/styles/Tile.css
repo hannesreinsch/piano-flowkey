@@ -1,0 +1,14 @@
+.tile {
+  border-radius: 0 0 30px 30px;
+  width: 100px;
+  height: 45vh;
+  background-color: #ffffff
+}
+
+.tile-key {
+  align-self: flex-end;
+}
+
+.active-tile {
+  background-color: blue
+}
