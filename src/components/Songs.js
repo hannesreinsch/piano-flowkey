@@ -7,18 +7,17 @@ import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 library.add(faPlayCircle);
 
 class Song extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
   render() {
     return (
       <div className="song-container">
-        <ul>
-          <li>test song</li>
-          <li>test song</li>
-          <li>test song</li>
-        </ul>
+        {this.props.songs.map(song => {
+          return (
+            <div>
+              <p>{song.name}</p>
+              <p>{song.duration}</p>
+            </div>
+          );
+        })}
       </div>
     );
   }
