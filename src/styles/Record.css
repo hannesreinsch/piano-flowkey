@@ -3,21 +3,21 @@
   margin: 0 auto;
 }
 
-.fa-pause-circle {
+.fa-stop-circle {
   font-size: 100px;
   margin: 0 auto;
 }
 
 .record-btn {
   text-align: center;
-  display: block
+  display: block;
 }
 
 .record-title {
-  font-size: 50px
+  font-size: 50px;
 }
 
 .record-time {
   text-align: center;
-  font-size: 25px
+  font-size: 25px;
 }

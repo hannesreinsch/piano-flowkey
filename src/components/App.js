@@ -10,11 +10,12 @@ class App extends Component {
     this.state = {
       currKey: null,
       isRecording: false,
-      recordDuration: 0
+      recordDuration: 0,
+      songName: ["", "", ""]
     };
     this.allSongs = [];
     this.recordedSong = {
-      name: "Name your Song",
+      name: this.state.songName,
       songKeys: [],
       duration: 0
     };
@@ -36,6 +37,16 @@ class App extends Component {
     this.handleRecord = this.handleRecord.bind(this);
     this.handleTilePress = this.handleTilePress.bind(this);
     this.handleTileRelease = this.handleTileRelease.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const songName = event.target.value;
+    const name = target.name;
+    this.setState({
+      [name]: songName
+    });
   }
 
   handleRecord(event) {
@@ -44,20 +55,22 @@ class App extends Component {
       if (state.isRecording) {
         clearInterval(this.timer);
         this.recordedSong.duration = this.state.recordDuration;
-        console.log(this.recordedSong);
-        this.allSongs.push(this.recordedSong);
-        this.recordedSong = {
-          name: "After Push",
-          songKeys: [],
-          duration: 0
-        };
-
-        console.log("this.allSongs", this.allSongs);
+        if (this.allSongs.length < 3 && this.recordedSong.songKeys.length > 0) {
+          this.allSongs.push(this.recordedSong);
+          this.recordedSong = {
+            name: this.state.songName,
+            songKeys: [],
+            duration: 0
+          };
+        }
         this.setState({ recordDuration: 0 });
       } else {
         const startTime = Date.now() - this.state.recordDuration;
         this.timer = setInterval(() => {
-          this.setState({ recordDuration: Date.now() - startTime });
+          this.setState({
+            recordDuration: Date.now() - startTime,
+            songName: ""
+          });
         });
       }
       return { isRecording: !state.isRecording };
@@ -73,7 +86,6 @@ class App extends Component {
       this.audio.play();
       if (this.state.isRecording) {
         this.recordedSong.songKeys.push(key);
-        console.log("recordedSong", this.recordedSong);
       }
     });
   }
@@ -100,14 +112,17 @@ class App extends Component {
         <div className="first-row">
           <div className="record-area">
             <Record
-              recordedSong={this.recordedSong.songKeys[0]}
               recordDuration={this.state.recordDuration}
               isRecording={this.state.isRecording}
               handleRecord={this.handleRecord}
             />
           </div>
           <div className="song-area">
-            <Songs songs={this.allSongs} />
+            <Songs
+              songName={this.state.songName}
+              handleInputChange={this.handleInputChange}
+              songs={this.allSongs}
+            />
           </div>
         </div>
 

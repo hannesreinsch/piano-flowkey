@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import "../styles/Record.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlayCircle, faPauseCircle } from "@fortawesome/free-solid-svg-icons";
+import { faStopCircle, faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPlayCircle, faPauseCircle);
+library.add(faStopCircle, faPlayCircle);
 
 class Record extends Component {
   render() {
@@ -14,7 +14,7 @@ class Record extends Component {
 
         <a onClick={this.props.handleRecord} className="record-btn">
           <FontAwesomeIcon
-            icon={this.props.isRecording ? "pause-circle" : "play-circle"}
+            icon={this.props.isRecording ? "stop-circle" : "play-circle"}
           />
         </a>
 

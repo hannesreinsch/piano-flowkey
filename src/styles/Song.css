@@ -1,0 +1,11 @@
+.song-name {
+  border: none;
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  padding: none;
+}
+
+.song-duration {
+  display: inline;
+}
