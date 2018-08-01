@@ -1,21 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import "../styles/Song.css";
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
-import ReactAudioPlayer from 'react-audio-player';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlayCircle } from "@fortawesome/free-solid-svg-icons";
 
-library.add( faPlayCircle )
-
-
-
+library.add(faPlayCircle);
 
 class Song extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {
-
-    }
+    this.state = {};
   }
   render() {
     return (

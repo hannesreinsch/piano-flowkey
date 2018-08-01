@@ -1,34 +1,75 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import "../styles/App.css";
 import Piano from "./Piano";
 import Record from "./Record";
 import Song from "./Song";
 
-
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state= {
+    this.state = {
+      currKey: null,
       recordedSong: {},
-      isRecording: false,
-    }
-    this.handleRecord = this.handleRecord.bind(this);    
+      isRecording: false
+    };
+    this.keys = [
+      "B3",
+      "C4",
+      "D4",
+      "E4",
+      "F4",
+      "G4",
+      "A4",
+      "B4",
+      "C5",
+      "D5",
+      "E5",
+      "F5",
+      "G5"
+    ];
+    this.handleRecord = this.handleRecord.bind(this);
+    this.handleTilePress = this.handleTilePress.bind(this);
+    this.handleTileRelease = this.handleTileRelease.bind(this);
   }
 
   handleRecord(event) {
     event.preventDefault();
     this.setState(prevState => ({
       isRecording: !prevState.isRecording
-    }))
+    }));
+  }
+
+  handleTilePress(key) {
+    this.setState({ currKey: key }, () => {
+      this.url = `https://github.com/fk-interview/react-piano-task/raw/master/grand-piano-mp3-sounds/${
+        this.state.currKey
+      }.mp3`;
+      this.audio = new Audio(this.url);
+      this.audio.play();
+    });
+  }
+
+  handleTileRelease() {
+    this.setState({ currKey: null });
+    this.audio.pause();
   }
 
   render() {
+    const mappedKeys = this.keys.map(key => {
+      return {
+        note: key,
+        active: this.state.currKey === key
+      };
+    });
+
     return (
       <div className="container">
-
         <div className="first-row">
           <div className="record-area">
-            <Record isRecording={this.state.isRecording} handleRecord={this.handleRecord}/>
+            <Record
+              isRecording={this.state.isRecording}
+              handleRecord={this.handleRecord}
+            />
           </div>
           <div className="song-area">
             <Song />
@@ -36,9 +77,12 @@ class App extends Component {
         </div>
 
         <div className="piano-area">
-          <Piano />
+          <Piano
+            keys={mappedKeys}
+            handleTilePress={this.handleTilePress}
+            handleTileRelease={this.handleTileRelease}
+          />
         </div>
-        
       </div>
     );
   }
