@@ -3,6 +3,11 @@
   margin: 0 auto;
 }
 
+.fa-pause-circle {
+  font-size: 100px;
+  margin: 0 auto;
+}
+
 .record-btn {
   text-align: center;
   display: block
