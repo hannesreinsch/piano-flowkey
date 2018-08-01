@@ -5,8 +5,6 @@ import Record from "./Record";
 import Song from "./Song";
 
 
-
-
 class App extends Component {
   constructor(props){
     super(props);

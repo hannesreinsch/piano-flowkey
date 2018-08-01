@@ -3,6 +3,7 @@ import "../styles/Song.css";
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlayCircle } from '@fortawesome/free-solid-svg-icons'
+import ReactAudioPlayer from 'react-audio-player';
 
 library.add( faPlayCircle )
 
