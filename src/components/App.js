@@ -9,8 +9,13 @@ class App extends Component {
     super(props);
     this.state = {
       currKey: null,
-      recordedSong: {},
-      isRecording: false
+      isRecording: false,
+      recordDuration: 0
+    };
+    this.recordedSong = {
+      name: "",
+      songKeys: [],
+      duration: 0
     };
     this.keys = [
       "B3",
@@ -46,6 +51,10 @@ class App extends Component {
       }.mp3`;
       this.audio = new Audio(this.url);
       this.audio.play();
+      if (this.state.isRecording) {
+        this.recordedSong.songKeys.push(key);
+        this.recordedSong.duration = this.state.recordDuration;
+      }
     });
   }
 
@@ -67,6 +76,7 @@ class App extends Component {
         <div className="first-row">
           <div className="record-area">
             <Record
+              recordDuration={this.state.recordDuration}
               isRecording={this.state.isRecording}
               handleRecord={this.handleRecord}
             />
