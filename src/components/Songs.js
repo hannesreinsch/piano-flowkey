@@ -2,23 +2,23 @@ import React, { Component } from "react";
 import "../styles/Song.css";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlayCircle, faPauseCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlay, faPause } from "@fortawesome/free-solid-svg-icons";
 
-library.add(faPlayCircle, faPauseCircle);
+library.add(faPlay, faPause);
 
 class Song extends Component {
   render() {
     return (
       <div className="song-container">
-        <h2>All Recorded Songs</h2>
-        {this.props.songs.map(song => {
+        <h2 className="songs-heading">All Recorded Songs</h2>
+        {this.props.songs.map((song, index) => {
           return (
-            <div key={song.name + song.duration + song.songKeys[0]}>
-              {/* <a className="play-btn">
+            <div className="song" key={index + song.songKeys[0]}>
+              <a onClick={this.props.handlePlay} className="play-btn">
                 <FontAwesomeIcon
-                  icon={this.props.isRecording ? "pause-circle" : "play-circle"}
+                  icon={this.props.isPlaying ? "pause" : "play"}
                 />
-              </a> */}
+              </a>
               <p className="song-name">
                 <input
                   className="song-name"
@@ -29,7 +29,6 @@ class Song extends Component {
                   placeholder="Change Title"
                 />
               </p>
-              <p className="song-duration">{song.duration}</p>
             </div>
           );
         })}

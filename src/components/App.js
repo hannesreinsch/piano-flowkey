@@ -10,14 +10,14 @@ class App extends Component {
     this.state = {
       currKey: null,
       isRecording: false,
+      isPlaying: false,
       recordDuration: 0,
-      songName: ["", "", ""]
+      songName: "",
+      allSongs: []
     };
-    this.allSongs = [];
     this.recordedSong = {
       name: this.state.songName,
-      songKeys: [],
-      duration: 0
+      songKeys: []
     };
     this.keys = [
       "B3",
@@ -35,17 +35,38 @@ class App extends Component {
       "G5"
     ];
     this.handleRecord = this.handleRecord.bind(this);
+    this.handlePlay = this.handlePlay.bind(this);
     this.handleTilePress = this.handleTilePress.bind(this);
     this.handleTileRelease = this.handleTileRelease.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.getSeconds = this.getSeconds.bind(this);
+    this.getMinutes = this.getMinutes.bind(this);
   }
 
   handleInputChange(event) {
     const target = event.target;
     const songName = event.target.value;
     const name = target.name;
-    this.setState({
-      [name]: songName
+    this.setState({ [name]: songName });
+  }
+
+  handlePlay() {
+    let urlArray = [];
+    console.log(urlArray);
+    this.urls = this.state.allSongs[0].songKeys.map(key => {
+      return urlArray.push(
+        `https://github.com/fk-interview/react-piano-task/raw/master/grand-piano-mp3-sounds/${key}.mp3`
+      );
+    });
+    let audios = new Audio(
+      urlArray.map(url => {
+        return url;
+      })
+    );
+    console.log(audios);
+    audios.play();
+    this.setState(state => {
+      return { isPlaying: !state.isPlaying };
     });
   }
 
@@ -54,24 +75,25 @@ class App extends Component {
     this.setState(state => {
       if (state.isRecording) {
         clearInterval(this.timer);
-        this.recordedSong.duration = this.state.recordDuration;
-        if (this.allSongs.length < 3 && this.recordedSong.songKeys.length > 0) {
-          this.allSongs.push(this.recordedSong);
+        if (
+          this.state.allSongs.length < 3 &&
+          this.recordedSong.songKeys.length > 0
+        ) {
+          this.state.allSongs.push(this.recordedSong);
           this.recordedSong = {
             name: this.state.songName,
-            songKeys: [],
-            duration: 0
+            songKeys: []
           };
         }
         this.setState({ recordDuration: 0 });
       } else {
-        const startTime = Date.now() - this.state.recordDuration;
+        let that = this;
         this.timer = setInterval(() => {
-          this.setState({
-            recordDuration: Date.now() - startTime,
+          that.setState({
+            recordDuration: that.state.recordDuration + 1,
             songName: ""
           });
-        });
+        }, 1000);
       }
       return { isRecording: !state.isRecording };
     });
@@ -95,6 +117,14 @@ class App extends Component {
     this.audio.pause();
   }
 
+  getSeconds() {
+    return ("0" + (this.state.recordDuration % 60)).slice(-2);
+  }
+
+  getMinutes() {
+    return Math.floor(this.state.recordDuration / 60);
+  }
+
   componentWillUnmount() {
     clearInterval(this.timer);
   }
@@ -107,21 +137,26 @@ class App extends Component {
       };
     });
 
+    console.log("ALL SONGS", this.state.allSongs);
+
     return (
       <div className="container">
         <div className="first-row">
           <div className="record-area">
             <Record
-              recordDuration={this.state.recordDuration}
+              getSeconds={this.getSeconds}
+              getMinutes={this.getMinutes}
               isRecording={this.state.isRecording}
               handleRecord={this.handleRecord}
             />
           </div>
           <div className="song-area">
             <Songs
+              handlePlay={this.handlePlay}
+              isPlaying={this.state.isPlaying}
               songName={this.state.songName}
               handleInputChange={this.handleInputChange}
-              songs={this.allSongs}
+              songs={this.state.allSongs}
             />
           </div>
         </div>

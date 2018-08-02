@@ -18,7 +18,9 @@ class Record extends Component {
           />
         </a>
 
-        <p className="record-time">{this.props.recordDuration}</p>
+        <p className="record-time">
+          {this.props.getMinutes()}:{this.props.getSeconds()}
+        </p>
       </div>
     );
   }
