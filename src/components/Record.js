@@ -11,13 +11,11 @@ class Record extends Component {
     return (
       <div className="record-container">
         <h2 className="record-title">Record a new Song</h2>
-
         <a onClick={this.props.handleRecord} className="record-btn">
           <FontAwesomeIcon
             icon={this.props.isRecording ? "stop-circle" : "play-circle"}
           />
         </a>
-
         <p className="record-time">
           {this.props.getMinutes()}:{this.props.getSeconds()}
         </p>

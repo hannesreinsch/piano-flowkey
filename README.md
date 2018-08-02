@@ -2,7 +2,7 @@
 
 Build a small piano application that can play sounds, as well as store and retrieve sequences of played keys (songs).
 
-*If anything here is unclear or any questions come to your mind, don’t hesitate to contact us - we’re here for you!*
+_If anything here is unclear or any questions come to your mind, don’t hesitate to contact us - we’re here for you!_
 
 ## Implementation instructions
 
@@ -13,12 +13,12 @@ Build a small piano application that can play sounds, as well as store and retri
 ## Minimum requirements
 
 - Piano UI:
-    - Clickable black and white keys, which play a sound when clicked
-    - Visual feedback on touching the keys
+  - Clickable black and white keys, which play a sound when clicked
+  - Visual feedback on touching the keys
 - Store song locally (e.g. in an Array):
-    - Show buttons to start/stop recording a sequence of keys
-    - Enable defining a song title
-    - Show a list of stored songs with title
+  - Show buttons to start/stop recording a sequence of keys
+  - Enable defining a song title
+  - Show a list of stored songs with title
 
 ## Optional features
 

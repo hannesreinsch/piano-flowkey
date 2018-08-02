@@ -5,17 +5,21 @@
   min-width: 35px;
   height: 45vh;
   background-color: #ffffff;
-  margin: 0 .1%;
-  justify-content: center
+  margin: 0 0.1%;
+  justify-content: center;
 }
 
 .tile-key {
   align-self: flex-end;
   font-size: 25px;
-  font-weight: 900
+  font-weight: 900;
 }
 
 .active-tile {
-  background: linear-gradient(0deg, rgba(255,255,255,1) 68%, rgba(204,204,203,1) 100%);
-  height: 47.5vh
+  background: linear-gradient(
+    0deg,
+    rgba(255, 255, 255, 1) 68%,
+    rgba(204, 204, 203, 1) 100%
+  );
+  height: 47.5vh;
 }

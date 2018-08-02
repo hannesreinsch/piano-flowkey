@@ -14,7 +14,6 @@ class Song extends Component {
         {this.props.songs.map((song, index) => {
           const isPlayingClass =
             this.props.playingId === song.id ? "pause" : "play";
-
           return (
             <div className="song" key={index + song.songKeys[0]}>
               <a

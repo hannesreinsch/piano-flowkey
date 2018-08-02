@@ -76,37 +76,35 @@ class App extends Component {
 
   handleRecord(event) {
     event.preventDefault();
-    this.setState(state => {
-      if (state.isRecording) {
-        clearInterval(this.timer);
-        if (
-          this.state.allSongs.length < 3 &&
-          this.recordedSong.songKeys.length > 0
-        ) {
-          this.setState(
-            {
-              allSongs: this.state.allSongs.concat([
-                {
-                  id: new Date().getTime(),
-                  songKeys: this.recordedSong.songKeys
-                }
-              ])
-            },
-            () => (this.recordedSong.songKeys = [])
-          );
-        }
-        this.setState({ recordDuration: 0 });
-      } else {
-        let that = this;
-        this.timer = setInterval(() => {
-          that.setState({
-            recordDuration: that.state.recordDuration + 1,
-            songName: ""
-          });
-        }, 1000);
+    if (this.state.isRecording) {
+      clearInterval(this.timer);
+      if (
+        this.state.allSongs.length < 3 &&
+        this.recordedSong.songKeys.length > 0
+      ) {
+        this.setState(
+          {
+            allSongs: this.state.allSongs.concat([
+              {
+                id: new Date().getTime(),
+                songKeys: this.recordedSong.songKeys
+              }
+            ])
+          },
+          () => (this.recordedSong.songKeys = [])
+        );
       }
-      return { isRecording: !state.isRecording };
-    });
+      this.setState({ recordDuration: 0 });
+    } else {
+      let that = this;
+      this.timer = setInterval(() => {
+        that.setState({
+          recordDuration: that.state.recordDuration + 1,
+          songName: ""
+        });
+      }, 1000);
+    }
+    this.setState({ isRecording: !this.state.isRecording });
   }
 
   handleTilePress(key) {
@@ -115,6 +113,7 @@ class App extends Component {
         this.state.currKey
       }.mp3`;
       this.audio = new Audio(this.url);
+      this.audio.currentTime += 0.5;
       this.audio.play();
       if (this.state.isRecording) {
         this.recordedSong.songKeys.push(key);
