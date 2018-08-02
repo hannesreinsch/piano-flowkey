@@ -10,13 +10,12 @@ class App extends Component {
     this.state = {
       currKey: null,
       isRecording: false,
-      isPlaying: false,
+      playingId: 0,
       recordDuration: 0,
       songName: "",
       allSongs: []
     };
     this.recordedSong = {
-      name: this.state.songName,
       songKeys: []
     };
     this.keys = [
@@ -50,24 +49,29 @@ class App extends Component {
     this.setState({ [name]: songName });
   }
 
-  handlePlay() {
-    let urlArray = [];
-    console.log(urlArray);
-    this.urls = this.state.allSongs[0].songKeys.map(key => {
-      return urlArray.push(
-        `https://github.com/fk-interview/react-piano-task/raw/master/grand-piano-mp3-sounds/${key}.mp3`
-      );
-    });
-    let audios = new Audio(
-      urlArray.map(url => {
-        return url;
-      })
-    );
-    console.log(audios);
-    audios.play();
-    this.setState(state => {
-      return { isPlaying: !state.isPlaying };
-    });
+  handlePlay(id) {
+    if (!this.state.playingId) {
+      let urlArray = [];
+      const playingSong = this.state.allSongs.find(el => el.id === id);
+      if (playingSong) {
+        urlArray = playingSong.songKeys.map(key => {
+          return `https://github.com/fk-interview/react-piano-task/raw/master/grand-piano-mp3-sounds/${key}.mp3`;
+        });
+      }
+      this.audios = urlArray.map(url => {
+        return new Audio(url);
+      });
+      this.audios.forEach((audio, index) => {
+        setTimeout(() => {
+          audio.play();
+        }, index * 750);
+        setTimeout(() => {
+          audio.pause();
+          this.setState({ playingId: 0 });
+        }, this.audios.length * 750);
+      });
+      this.setState({ playingId: id });
+    }
   }
 
   handleRecord(event) {
@@ -79,11 +83,17 @@ class App extends Component {
           this.state.allSongs.length < 3 &&
           this.recordedSong.songKeys.length > 0
         ) {
-          this.state.allSongs.push(this.recordedSong);
-          this.recordedSong = {
-            name: this.state.songName,
-            songKeys: []
-          };
+          this.setState(
+            {
+              allSongs: this.state.allSongs.concat([
+                {
+                  id: new Date().getTime(),
+                  songKeys: this.recordedSong.songKeys
+                }
+              ])
+            },
+            () => (this.recordedSong.songKeys = [])
+          );
         }
         this.setState({ recordDuration: 0 });
       } else {
@@ -137,8 +147,6 @@ class App extends Component {
       };
     });
 
-    console.log("ALL SONGS", this.state.allSongs);
-
     return (
       <div className="container">
         <div className="first-row">
@@ -157,6 +165,7 @@ class App extends Component {
               songName={this.state.songName}
               handleInputChange={this.handleInputChange}
               songs={this.state.allSongs}
+              playingId={this.state.playingId}
             />
           </div>
         </div>

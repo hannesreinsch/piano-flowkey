@@ -12,12 +12,16 @@ class Song extends Component {
       <div className="song-container">
         <h2 className="songs-heading">All Recorded Songs</h2>
         {this.props.songs.map((song, index) => {
+          const isPlayingClass =
+            this.props.playingId === song.id ? "pause" : "play";
+
           return (
             <div className="song" key={index + song.songKeys[0]}>
-              <a onClick={this.props.handlePlay} className="play-btn">
-                <FontAwesomeIcon
-                  icon={this.props.isPlaying ? "pause" : "play"}
-                />
+              <a
+                onClick={() => this.props.handlePlay(song.id)}
+                className="play-btn"
+              >
+                <FontAwesomeIcon icon={isPlayingClass} />
               </a>
               <p className="song-name">
                 <input
